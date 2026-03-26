@@ -7,7 +7,7 @@ import TextInput from "./components/TextInput";
 function App() {
   return (
     <>
-      <p>vite 프로젝트 생성 </p>
+      <p>공통 컴포넌트 테스트</p>
       <Button />
       <Card />
       <NumberInput />

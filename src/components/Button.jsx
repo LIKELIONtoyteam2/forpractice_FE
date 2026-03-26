@@ -1,7 +1,8 @@
 const Button = () => {
   return (
     <>
-      <button>버튼1</button>
+      <button type="submit">제출 버튼</button>
+      <button type="button">일반 버튼</button>
     </>
   );
 };
