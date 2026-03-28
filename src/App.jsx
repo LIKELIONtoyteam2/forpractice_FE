@@ -10,9 +10,12 @@ function App() {
       <p>공통 컴포넌트 테스트</p>
       <Button />
       <Card />
+      <br />
       <NumberInput />
       <br />
+      <br />
       <TextInput />
+      <br />
       <br />
       <TextArea />
     </>

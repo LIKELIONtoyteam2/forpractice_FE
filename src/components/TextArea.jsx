@@ -1,7 +1,11 @@
 const TextArea = () => {
   return (
     <>
-      <textarea></textarea>
+      <textarea
+        rows="10"
+        cols="50"
+        defaultValue={"텍스트를 입력하세요."}
+      ></textarea>
     </>
   );
 };
