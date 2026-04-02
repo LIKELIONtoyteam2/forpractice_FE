@@ -3,21 +3,28 @@ import Card from "./components/Card";
 import NumberInput from "./components/NumberInput";
 import TextArea from "./components/TextArea";
 import TextInput from "./components/TextInput";
+import { Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+import SignupNickname from "./pages/SignupPages/SignupNickname";
+import SignupAccount from "./pages/SignupPages/SignupAccount";
+import Navbar from "./pages/Navbar";
+import Home from "./pages/Home";
+import Product from "./pages/Product";
+import Mypage from "./pages/Mypage";
 
 function App() {
   return (
     <>
-      <p>공통 컴포넌트 테스트</p>
-      <Button />
-      <Card />
-      <br />
-      <NumberInput />
-      <br />
-      <br />
-      <TextInput />
-      <br />
-      <br />
-      <TextArea />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup/nickname" element={<SignupNickname />} />
+        <Route path="/signup/account" element={<SignupAccount />} />
+        <Route element={<Navbar />}>
+          <Route path="home" element={<Home />} />
+          <Route path="product" element={<Product />} />
+          <Route path="mypage" element={<Mypage />} />
+        </Route>
+      </Routes>
     </>
   );
 }
