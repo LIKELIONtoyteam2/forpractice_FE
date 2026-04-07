@@ -1,4 +1,4 @@
-const TextInput = ({ type = "text", placeholder, value, onChange }) => {
+const Input = ({ type = "text", placeholder, value, onChange }) => {
   return (
     <>
       <input
@@ -11,4 +11,4 @@ const TextInput = ({ type = "text", placeholder, value, onChange }) => {
   );
 };
 
-export default TextInput;
+export default Input;

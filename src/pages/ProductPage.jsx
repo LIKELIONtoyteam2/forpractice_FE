@@ -1,9 +1,7 @@
 import Button from "../components/Button";
-import TextInput from "../components/TextInput";
+import Input from "../components/TextInput";
 import Product from "../components/Product";
 import { useState } from "react";
-
-// import { useState } from "react";
 
 const ProductPage = () => {
   // const [SortType, setSortType] = useState("all");
@@ -46,7 +44,7 @@ const ProductPage = () => {
   return (
     <>
       <img src="./icons/search.svg" />
-      <TextInput type="text" placeholder="검색어를 입력하세요"></TextInput>
+      <Input type="text" placeholder="검색어를 입력하세요"></Input>
       <br />
 
       <Button type="button">전체</Button>

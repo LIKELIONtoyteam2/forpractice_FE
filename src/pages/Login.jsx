@@ -1,25 +1,41 @@
 import Button from "../components/Button";
-import TextInput from "../components/TextInput";
+import Input from "../components/TextInput";
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
 const Login = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <>
       <main>
-        <p>Audit</p>
+        <img src="/icons/logo.svg" />
         <section>
           <p>아이디</p>
-          <TextInput type="text" placeholder="아이디 입력" />
+          <Input type="text" placeholder="아이디 입력" />
         </section>
 
         <section>
-          <p>비밀번호</p>
-          <TextInput type="password" placeholder="비밀번호 입력" />
-          <p>로그인 유지 체크박스 넣어야됨</p>
+          <span>
+            <p>비밀번호</p>
+            <Input
+              type={showPassword ? "text" : "password"}
+              placeholder="비밀번호 입력"
+            />
+            <img
+              src={
+                showPassword ? "/icons/eye_opened.svg" : "/icons/eye_closed.svg"
+              }
+              // 현재 상태 반전시키는 코드
+              onClick={() => setShowPassword(!showPassword)}
+            />
+          </span>
+          <br />
+          <Input type="checkbox"></Input>
+          <span>로그인 상태 유지</span>
         </section>
 
         <Button type="button">로그인</Button>
+        {/*  정보 서버로 전송 로직 */}
         <Button type="button" onClick={() => navigate("/signup/nickname")}>
           회원가입
         </Button>

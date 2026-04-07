@@ -1,8 +1,11 @@
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
-import TextInput from "../components/TextInput";
+import Input from "../components/TextInput";
+import { useState } from "react";
 const MypageFix = () => {
   const navigate = useNavigate();
+  const [Nickname, setNickname] = useState("");
+
   return (
     <>
       <header>
@@ -20,11 +23,15 @@ const MypageFix = () => {
 
         <div style={{ border: "1px solid grey" }}>
           <p>닉네임</p>
-          <TextInput type="text">
+          <Input
+            type="text"
+            value={Nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          >
             <img src="/icons/close.png" />
-          </TextInput>
+          </Input>
           <Button type="button">
-            <img src="/icons/close.svg" />
+            <img src="/icons/close.svg" onClick={() => setNickname(" ")} />
           </Button>
         </div>
       </main>
