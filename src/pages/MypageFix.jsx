@@ -5,7 +5,8 @@ import { useState } from "react";
 const MypageFix = () => {
   const navigate = useNavigate();
   const [Nickname, setNickname] = useState("");
-
+  //currentUser 배열 꺼내기
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   return (
     <>
       <header>
@@ -18,15 +19,16 @@ const MypageFix = () => {
         <Button type="button">
           <img src="/icons/edit.svg" />
         </Button>
-        <p>닉네임</p>
-        <p>@아이디</p>
+        <p>{currentUser.nickname}</p>
+        <p>@{currentUser.id}</p>
 
         <div style={{ border: "1px solid grey" }}>
-          <p>닉네임</p>
+          <p>{currentUser.nickname}</p>
           <Input
             type="text"
             value={Nickname}
             onChange={(e) => setNickname(e.target.value)}
+            placeholder={"닉네임을 입력하세요"}
           >
             <img src="/icons/close.png" />
           </Input>

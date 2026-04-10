@@ -19,7 +19,13 @@ const SignupNickname = () => {
       ></Input>
       <br />
 
-      <Button type="button" onClick={() => navigate("/signup/account")}>
+      <Button
+        type="button"
+        onClick={() => {
+          localStorage.setItem("temp_nickname", Nickname);
+          navigate("/signup/account");
+        }}
+      >
         다음
       </Button>
     </>
