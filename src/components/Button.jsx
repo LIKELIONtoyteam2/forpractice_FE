@@ -1,8 +1,9 @@
-const Button = () => {
+const Button = ({ type = "button", onClick, children }) => {
   return (
     <>
-      <button type="submit">제출 버튼</button>
-      <button type="button">일반 버튼</button>
+      <button type={type} onClick={onClick}>
+        {children}
+      </button>
     </>
   );
 };
