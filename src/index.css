@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+:root {
+  --color-primary-500: #5f7eff;
+  --color-primary-10: #eff2ff;
+  --color-primary-40: #bfcbff;
+  --color-gray-500: #000000;
+  --color-gray-200: #999999;
+  --color-gray-10: #e5e5e5;
+  --color-high-500: #ff6c6e;
+  --color-mid-500: #ffcf55;
+  --color-low-500: #89d168;
+
+  --color-Error-500: #ff0004;
+  --color-Positive-500: #00c800;
+}
+
+@theme {
+  /* [브랜드/메인 컬러] */
+  --color-primary: var(--color-primary-500);
+  --color-primary10: var(--color-primary-10);
+  --color-primary40: var(--color-primary-40);
+
+  /* [회색조] */
+  --color-black: var(--color-gray-500);
+  --color-gray1: var(--color-gray-10);
+  --color-gray2: var(--color-gray-200);
+
+  /* [상태/위험도 기반 컬러] - 이미지에 있던 high, mid, low 활용 */
+  --color-danger: var(--color-high-500);
+  --color-warning: var(--color-mid-500);
+  --color-success: var(--color-low-500);
+
+  /* [시스템 컬러] */
+  --color-error: var(--color-Error-500);
+  --color-positive: var(--color-Positive-500);
+}
