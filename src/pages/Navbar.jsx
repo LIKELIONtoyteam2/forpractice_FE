@@ -9,12 +9,12 @@ const Navbar = () => {
       {" "}
       {/* 푸터 높이만큼 바닥 여백 확보 */}
       {/* 실제 페이지 내용이 렌더링되는 곳 */}
-      <div className="mx-auto w-[490px] bg-white">
+      <div className="mx-auto w-100.5 bg-white">
         <Outlet />
       </div>
       {/* 하단 고정 네비게이션 바 */}
-      <footer className="fixed bottom-0 left-1/2 w-[490px] -translate-x-1/2 bg-white px-6 py-3 ">
-        <div className="flex justify-around items-center">
+      <footer className="fixed bottom-0 left-1/2 w-100.5 -translate-x-1/2 bg-white px-6 py-3">
+        <div className="flex items-center justify-around">
           {/* 홈 버튼 */}
           <NavLink
             to="/productpage"
@@ -26,7 +26,7 @@ const Navbar = () => {
                   className={isActive ? "color-gray2" : "text-gray-400"}
                 />
                 <span
-                  className={`text-[11px] ${isActive ? "text-black font-bold" : "text-gray-400"}`}
+                  className={`text-[11px] ${isActive ? "font-main-Bold text-black " : "text-gray-400"}`}
                 >
                   홈
                 </span>
@@ -42,7 +42,7 @@ const Navbar = () => {
                   className={isActive ? "color-gray2" : "text-gray-400"}
                 />
                 <span
-                  className={`text-[11px] ${isActive ? "text-black font-bold" : "text-gray-400"}`}
+                  className={`text-[11px] ${isActive ? "font-main-Bold text-black" : "text-gray-400"}`}
                 >
                   등록
                 </span>
@@ -58,7 +58,7 @@ const Navbar = () => {
                   className={isActive ? "color-gray2" : "text-gray-400"}
                 />
                 <span
-                  className={`text-[11px] ${isActive ? "text-black font-bold" : "text-gray-400"}`}
+                  className={`text-[11px] ${isActive ? "font-main-Bold text-black" : "text-gray-400"}`}
                 >
                   마이
                 </span>

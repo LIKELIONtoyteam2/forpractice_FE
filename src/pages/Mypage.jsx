@@ -8,27 +8,27 @@ const Mypage = () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
   return (
-    <div className="flex flex-col items-center min-h-screen w-[490px] bg-white">
-      <header className="w-full h-14 flex items-center justify-center font-bold text-lg border-b border-gray-100">
+    <div className="flex min-h-screen w-100.5 flex-col items-center bg-white">
+      <header className="font-main-Bold flex h-14 w-full items-center justify-center border-b border-gray-100 text-lg">
         마이페이지
       </header>
 
       {/* 프로필 컨텐츠 영역 */}
-      <div className="flex flex-col  items-center w-full px-10 py-10">
+      <div className="flex w-full flex-col items-center px-10 py-10">
         {/* 프로필 이미지 (원형) */}
-        <div className="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-[#EAEAEA] flex items-center justify-center shadow-sm">
+        <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#EAEAEA]">
           {currentUser.profileImage ? (
             <img
               src={currentUser.profileImage}
               alt="프로필"
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
             />
           ) : (
             /* 이미지 없을 경우 */
             <img
               src="/images/defalutProfile.png"
               alt="프로필"
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
             />
           )}
         </div>
@@ -36,14 +36,14 @@ const Mypage = () => {
 
       {/* 유저 정보 */}
       <div className="mt-6 text-center">
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="font-main-Bold text-2xl text-gray-900">
           {currentUser.nickname}
         </h2>
-        <p className="text-gray-500 text-sm mt-1">@{currentUser.id}</p>
+        <p className="mt-1 text-sm text-gray-500">@{currentUser.id}</p>
       </div>
 
       {/* 버튼 영역 */}
-      <div className="w-full mt-10">
+      <div className="mt-10 w-full">
         <Button
           variant="primary"
           className="w-full py-4 text-lg" // 전체 너비 확장 및 패딩 조절

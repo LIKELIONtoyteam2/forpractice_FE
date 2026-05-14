@@ -1,12 +1,14 @@
 import Input from "../components/TextInput";
 import Button from "../components/Button";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
+import { useToastStore } from "../store/useToastStore";
 
 const Register = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [Preview, setPreview] = useState("/images/previewphoto.png");
+  const showToast = useToastStore((state) => state.showToast);
   const [form, setForm] = useState({
     name: "",
     image: null,
@@ -41,12 +43,15 @@ const Register = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault(); // 페이지 새로고침 방지
+    console.log("sss");
 
     // 비어있는 거 검사
     if (!form.name || !form.expiryDate || !form.openedDate || !form.category) {
       alert("내용을 모두 입력해주세요!");
       return;
     }
+
+    showToast("check", "제품이 등록됐습니다!");
     //기존 데이터 가져오기
     const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
 
@@ -62,24 +67,24 @@ const Register = () => {
       JSON.stringify([...existingProducts, newProduct]),
     );
 
-    navigate("/productpage");
+    //navigate("/productpage");
   };
 
   return (
-    <div className="flex flex-col items-center w-[490px] min-h-screen bg-white px-4 py-6 font-sans">
-      <img className="flex w-24 mb-9 items-center" src="/icons/logo.svg" />
+    <div className="font-main flex min-h-screen w-100.5 flex-col items-center bg-white px-4 py-6">
+      <img className="mb-9 flex w-24 items-center" src="/icons/logo.svg" />
 
       {/* 사진 업로드 영역 */}
-      <div className="flex flex-col items-center mb-8">
+      <div className="mb-8 flex flex-col items-center">
         <div
           onClick={onUploadClick}
-          className="w-48 h-48 bg-gray-100 rounded-3xl flex items-center justify-center overflow-hidden border border-gray-200 cursor-pointer mb-4"
+          className="mb-4 flex h-48 w-48 cursor-pointer items-center justify-center overflow-hidden rounded-3xl border border-gray-200 bg-gray-100"
         >
           {Preview ? (
             <img
               src={Preview}
               alt="미리보기"
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
             />
           ) : (
             <img
@@ -91,12 +96,12 @@ const Register = () => {
         </div>
         <button
           onClick={onUploadClick}
-          className="flex items-center gap-1 bg-primary text-white px-6 py-2 rounded-full text-sm font-medium shadow-md"
+          className="bg-primary font-main-Bold flex items-center gap-1 rounded-full px-6 py-2 text-sm text-white"
         >
           <img
             src="/icons/upload.svg"
             alt="upload"
-            className="w-8 h-8 object-contain"
+            className="h-8 w-8 object-contain"
           />
           업로드
         </button>
@@ -112,45 +117,45 @@ const Register = () => {
       {/* 폼 입력 영역 */}
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="flex items-center">
-          <label className="w-20 font-bold text-gray-800">제품명</label>
+          <label className="font-main-Bold w-20 text-gray-800">제품명</label>
           <Input
             placeholder="제품명을 입력해주세요"
-            className="flex-1 rounded-full border-gray-300"
+            className="border-gray2 flex-1 rounded-full border px-4 py-2"
             onChange={(e) => handleChange(e, "name")}
           />
         </div>
 
         <div className="flex items-center">
-          <label className="w-20 font-bold text-gray-800">개봉일</label>
+          <label className="font-main-Bold w-20 text-gray-800">개봉일</label>
           <Input
             type="date"
-            className="flex-1 rounded-full border-gray-300"
+            className="border-gray2 flex-1 rounded-full border px-4 py-2"
             onChange={(e) => handleChange(e, "openedDate")}
           />
         </div>
 
         <div className="flex items-center">
-          <label className="w-20 font-bold text-gray-800">유통기한</label>
+          <label className="font-main-Bold w-20 text-gray-800">유통기한</label>
           <Input
             type="date"
-            className="flex-1 rounded-full border-gray-300"
+            className="border-gray2 flex-1 rounded-full border px-4 py-2"
             onChange={(e) => handleChange(e, "expiryDate")}
           />
         </div>
 
         <div className="flex items-center">
-          <label className="w-20 font-bold text-gray-800">카테고리</label>
-          <div className="flex-1 relative">
+          <label className="font-main-Bold w-20 text-gray-800">카테고리</label>
+          <div className="relative flex-1">
             <select
-              className="w-full border border-gray-300 rounded-full py-2 px-4 appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="border-gray2 w-full appearance-none rounded-full border px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
               onChange={(e) => handleChange(e, "category")}
-              defaultValue="영양제"
+              defaultValue="카테고리 선택"
             >
-              <option value="영양제">영양제 ✕</option>
+              <option value="영양제">영양제</option>
               <option value="식품">식품</option>
               <option value="화장품">화장품</option>
             </select>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
+            <span className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-500">
               ▼
             </span>
           </div>
@@ -159,7 +164,7 @@ const Register = () => {
         <div className="pt-6">
           <Button
             type="submit"
-            className="w-full bg-primary  text-white py-4 rounded-2xl text-lg font-bold transition-colors"
+            className="bg-primary font-main-Bold h-12.5 w-87.5 rounded-full py-4 text-lg text-white transition-colors"
           >
             등록하기
           </Button>

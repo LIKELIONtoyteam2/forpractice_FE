@@ -28,9 +28,9 @@ const SignupAccount = () => {
     console.log(users);
   };
   return (
-    <div className="mx-auto flex min-h-screen w-100 flex-col bg-white px-4">
+    <div className="mx-auto flex min-h-screen w-100.5 flex-col bg-white px-4">
       {/* [추가] 상단 뒤로가기 + 타이틀 헤더 (이미지 참고) */}
-      <header className="flex items-center pt-6 pb-2 relative">
+      <header className="relative flex items-center pt-6 pb-2">
         <button
           onClick={() => navigate(-1)}
           className="absolute left-0 p-1 text-gray-700"
@@ -51,19 +51,19 @@ const SignupAccount = () => {
             />
           </svg>
         </button>
-        <h1 className="w-full text-center text-base font-semibold text-gray-900">
+        <h1 className="font-main-SemiBold w-full text-center text-base text-gray-900">
           회원가입
         </h1>
       </header>
 
-      <main className="w-full mt-30 space-y-6">
+      <main className="mt-30 w-full space-y-6">
         {/* 아이디 섹션 */}
         <section className="space-y-2">
-          <label className="block text-sm font-extrabold  text-gray-800">
+          <label className="font-main-Bold block text-sm text-gray-800">
             아이디
           </label>
           <Input
-            className="w-full h-11 pl-6 bg-gray-100 rounded-[99px]"
+            className="h-11 w-full rounded-[99px] bg-gray-100 pl-6"
             type="text"
             placeholder="아이디 입력"
             value={id}
@@ -72,13 +72,13 @@ const SignupAccount = () => {
         </section>
 
         {/* 비밀번호 섹션 */}
-        <section className="space-y-2">
-          <label className="block text-sm font-extrabold text-gray-800">
+        <section className="mb-100">
+          <label className="font-main-Bold block pb-2 text-sm text-gray-800">
             비밀번호
           </label>
           <div className="relative">
             <Input
-              className="w-full pr-10    h-11 pl-6 bg-gray-100 rounded-[99px]"
+              className="h-11 w-full rounded-[99px] bg-gray-100 pr-10 pl-6"
               type={showPassword ? "text" : "password"}
               placeholder="비밀번호 입력"
               value={pw}
@@ -89,27 +89,21 @@ const SignupAccount = () => {
                 showPassword ? "/icons/eye_opened.svg" : "/icons/eye_closed.svg"
               }
               alt="toggle password visibility"
-              className="absolute right-3 top-1/2 w-5 -translate-y-1/2 cursor-pointer opacity-40"
+              className="absolute top-1/2 right-3 w-5 -translate-y-1/2 cursor-pointer opacity-40"
               onClick={() => setShowPassword(!showPassword)}
             />
           </div>
-
-          {/* 로그인 상태 유지 */}
-          <div className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-            <input type="checkbox" className="h-4 w-4 accent-[#7482FF]" />
-            <span>로그인 상태 유지</span>
-          </div>
         </section>
         {/* 로그인 버튼  */}
-        <div className="pt-4">
+        <div className="flex justify-center pb-10">
           <Button
-            className="w-full py-4 text-lg" // 화면 너비에 꽉 차게
+            className="font-main-Bold flex h-15 w-87.5" // 화면 너비에 꽉 차게
             onClick={() => {
-              navigate("/productpage");
+              navigate("/signup/complete");
               handleSignup();
             }}
           >
-            로그인
+            가입완료
           </Button>
         </div>
       </main>

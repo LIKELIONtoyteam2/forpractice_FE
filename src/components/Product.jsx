@@ -15,7 +15,7 @@ const Product = ({
   return (
     <div
       onClick={onClick}
-      className={`w-full cursor-pointer overflow-hidden rounded-[20px] border border-red-200 pb-3 shadow-sm `}
+      className={`w-full cursor-pointer overflow-hidden rounded-[20px] border border-red-200 pb-3 `}
     >
       {/*이미지 */}
       <div className="relative h-40 w-full bg-gray-200">
@@ -29,7 +29,7 @@ const Product = ({
 
         {/* D-Day 배지 (우측 하단 고정) */}
         <div
-          className={`absolute bottom-2 right-2 rounded-lg px-2 py-1 text-sm font-bold text-white ${bgColor}`}
+          className={`absolute bottom-2 right-2 rounded-lg px-2 py-1 text-sm font-main-Bold text-white ${bgColor}`}
         >
           D-{daysLeft}
         </div>
@@ -37,7 +37,7 @@ const Product = ({
 
       {/* 하단 정보 영역 */}
       <div className="px-3 pt-3">
-        <h3 className="truncate text-lg font-bold text-gray-800">{name}</h3>
+        <h3 className="truncate text-lg font-main-Bold text-gray-800">{name}</h3>
 
         {/* 진행 바 커스텀 */}
         <div className={`mt-2 h-3 w-full rounded-full ${bgColor}`}>

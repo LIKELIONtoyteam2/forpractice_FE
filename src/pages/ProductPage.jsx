@@ -49,13 +49,13 @@ const ProductPage = () => {
 
   return (
     /* 전체 컨테이너를 모바일 너비로 제한하고 중앙 정렬 */
-    <div className="mx-auto min-h-screen w-[490px] bg-white px-4 py-6">
+    <div className="bg-primary10 mx-auto min-h-screen w-100.5 px-4 py-6">
       {/* 로고 & 검색창 */}
-      <div className="flex flex-col gap-4 items-center">
+      <div className="flex flex-col items-center gap-4">
         <img
           src="/icons/logo.svg"
           alt="logo"
-          className="flex w-24 items-center"
+          className="flex h-8 w-15 items-center"
         />
 
         <div className="flex items-center gap-2 rounded-xl bg-gray-100 p-3">
@@ -65,7 +65,7 @@ const ProductPage = () => {
             alt="search"
           />
           <Input
-            className="w-100 bg-transparent outline-none"
+            className="h-10 w-90 bg-transparent outline-none"
             type="text"
             placeholder="검색"
           />
@@ -73,32 +73,32 @@ const ProductPage = () => {
       </div>
 
       {/* 정렬 필터 (가로 스크롤 가능하게 처리) */}
-      <div className="mt-6 flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+      <div className="mt-6 flex justify-center gap-2 pb-2">
         <Button
           onClick={() => setSortType("default")}
           active={sortType === "default"}
-          className="text-xs"
+          className="font-main-Regular text-[14px]"
         >
           전체
         </Button>
         <Button
           onClick={() => setSortType("latest")}
           active={sortType === "latest"}
-          className="text-xs"
+          className="font-main-Regular text-[14px]"
         >
           최신 등록순
         </Button>
         <Button
           onClick={() => setSortType("expiry")}
           active={sortType === "expiry"}
-          className="text-xs"
+          className="font-main-Regular text-[14px]"
         >
           유통기한 임박순
         </Button>
         <Button
           onClick={() => setSortType("category")}
           active={sortType === "category"}
-          className="text-xs"
+          className="font-main-Regular text-[14px]"
         >
           카테고리별
         </Button>
@@ -144,24 +144,24 @@ const ProductPage = () => {
             </div>
             <div className="mt-6 w-full space-y-3 text-sm">
               <div className="mt-1.5">
-                <span className="font-bold">제품명 </span>
+                <span className="font-main-SemiBold">제품명 </span>
 
                 <span>{selectedProduct.name}</span>
               </div>
               <div className="mt-1.5">
-                <span className="font-bold">개봉일 </span>
+                <span className="font-main-SemiBold">개봉일 </span>
 
                 <span>{selectedProduct.opendDate}</span>
               </div>
 
               <div className="mt-1.5">
-                <span className="font-bold">유통기한 </span>
+                <span className="font-main-SemiBold">유통기한 </span>
 
                 <span>{selectedProduct.expiryDate}</span>
               </div>
 
               <div className="mt-1.5">
-                <span className="font-bold">카테고리 </span>
+                <span className="font-main-SemiBold">카테고리 </span>
 
                 <span>{selectedProduct.category}</span>
               </div>
