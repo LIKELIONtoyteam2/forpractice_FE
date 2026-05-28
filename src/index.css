@@ -1,1 +1,116 @@
 @import "tailwindcss";
+
+@font-face {
+    font-family: 'Pretendard-Thin';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard-ExtraLight';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraLight.woff2') format('woff2');
+    font-weight: 200;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard-SemiBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard-Extrabold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-display: swap;
+}
+@layer base {
+  .font-main {
+    font-family: 'Pretendard', sans-serif;
+  }
+}
+:root {
+  --color-primary-600:#3E64FF;
+  --color-primary-500: #5f7eff;
+  --color-primary-10: #eff2ff;
+  --color-primary-40: #bfcbff;
+
+  --color-dark-500: #000000;
+  --color-dark-200: #999999; 
+  --color-dark-50: #808080;
+  --color-dark-10: #e5e5e5;
+  
+  --color-high-500: #ff6c6e;
+  --color-mid-500: #ffcf55;
+  --color-low-500: #89d168;
+
+  --color-Error-500: #ff0004;
+  --color-Positive-500: #00c800;
+}
+
+@theme {
+  /* [브랜드/메인 컬러] */
+  --color-primaryBold: var(--color-primary-600);
+  --color-primary: var(--color-primary-500);
+  --color-primary10: var(--color-primary-10);
+  --color-primary40: var(--color-primary-40);
+
+  /* [회색조] */
+  --color-black: var(--color-dark-500);
+  --color-gray1: var(--color-dark-10);
+  --color-gray2: var(--color-dark-200);
+  --color-gray3: var(--color-dark-50);
+
+  /* [상태/위험도 기반 컬러] - 이미지에 있던 high, mid, low 활용 */
+  --color-danger: var(--color-high-500);
+  --color-warning: var(--color-mid-500);
+  --color-success: var(--color-low-500);
+
+  /* [시스템 컬러] */
+  --color-error: var(--color-Error-500);
+  --color-positive: var(--color-Positive-500);
+
+   --font-main-Regular:'Pretendard-Regular', sans-serif;
+   --font-main-ExtraBold:'Pretendard-ExtraBold', sans-serif;
+   --font-main-Bold:'Pretendard-Bold', sans-serif;
+   --font-main-SemiBold:'Pretendard-SemiBold', sans-serif;
+}
+

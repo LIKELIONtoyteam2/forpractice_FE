@@ -1,49 +1,73 @@
-import { Outlet } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import MyIcon from "../components/icons/MyIcon";
 import HomeIcon from "../components/icons/HomeIcon";
 import NewIcon from "../components/icons/NewIcon";
-import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const navigate = useNavigate();
-
   return (
-    <>
-      <Outlet /> {/*이 위치에 자식 컴포넌트 렌더링 */}
-      <footer style={{ display: "flex", flexDirection: "row" }}>
-        <div onClick={() => navigate("/productpage")}>
-          <NavLink to="/productpage">
+    <div className="relative min-h-screen pb-20">
+      {" "}
+      {/* 푸터 높이만큼 바닥 여백 확보 */}
+      {/* 실제 페이지 내용이 렌더링되는 곳 */}
+      <div className="mx-auto w-100.5 bg-white">
+        <Outlet />
+      </div>
+      {/* 하단 고정 네비게이션 바 */}
+      <footer className="fixed bottom-0 left-1/2 w-100.5 -translate-x-1/2 bg-white px-6 py-3">
+        <div className="flex items-center justify-around">
+          {/* 홈 버튼 */}
+          <NavLink
+            to="/productpage"
+            className="flex flex-col items-center gap-1"
+          >
             {({ isActive }) => (
-              <HomeIcon
-                className={isActive ? "text-blue-500" : "text-gray-400"}
-              />
+              <>
+                <HomeIcon
+                  className={isActive ? "color-gray2" : "text-gray-400"}
+                />
+                <span
+                  className={`text-[11px] ${isActive ? "font-main-Bold text-black " : "text-gray-400"}`}
+                >
+                  홈
+                </span>
+              </>
             )}
           </NavLink>
-          <span>홈</span>
-        </div>
-        <div onClick={() => navigate("/mypage")}>
-          <NavLink to="/mypage">
+
+          {/* 등록 버튼 (중앙) */}
+          <NavLink to="/register" className="flex flex-col items-center gap-1">
             {({ isActive }) => (
-              <MyIcon
-                className={isActive ? "text-blue-500" : "text-gray-400"}
-              />
+              <>
+                <NewIcon
+                  className={isActive ? "color-gray2" : "text-gray-400"}
+                />
+                <span
+                  className={`text-[11px] ${isActive ? "font-main-Bold text-black" : "text-gray-400"}`}
+                >
+                  등록
+                </span>
+              </>
             )}
           </NavLink>
-          <span>마이</span>
-        </div>
-        <div onClick={() => navigate("/register")}>
-          <NavLink to="/register">
+
+          {/* 마이페이지 버튼 */}
+          <NavLink to="/mypage" className="flex flex-col items-center gap-1">
             {({ isActive }) => (
-              <NewIcon
-                className={isActive ? "text-blue-500" : "text-gray-400"}
-              />
+              <>
+                <MyIcon
+                  className={isActive ? "color-gray2" : "text-gray-400"}
+                />
+                <span
+                  className={`text-[11px] ${isActive ? "font-main-Bold text-black" : "text-gray-400"}`}
+                >
+                  마이
+                </span>
+              </>
             )}
           </NavLink>
-          <span>등록</span>
         </div>
       </footer>
-    </>
+    </div>
   );
 };
 
