@@ -3,12 +3,20 @@ import Button from "../components/Button";
 //import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useToastStore } from "../store/useToastStore";
+import { useAuthStore } from "../store/useAuthStore";
+import { usePostStore } from "../store/usePostStore";
+//import api from "@api/axios";
 
 const Register = () => {
   //const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [Preview, setPreview] = useState("/images/previewphoto.png");
   const showToast = useToastStore((state) => state.showToast);
+  const { createPost } = usePostStore();
+  const { isLoading } = useAuthStore();
+
+  const [categories, setCategories] = useState(["영양제", "식품"]);
+
   const [form, setForm] = useState({
     name: "",
     image: null,
@@ -36,14 +44,35 @@ const Register = () => {
 
   // 입력값이 바뀔 때마다 form 상태 업데이트
   const handleChange = (e, field) => {
-    setForm({ ...form, [field]: e.target.value });
+    const value = e.target.value;
+
+    // 💡 [추가된 로직] 카테고리에서 "직접 추가"를 선택했을 때만 특별 처리
+    if (field === "category" && value === "__ADD_NEW__") {
+      const newCategory = prompt("새로운 카테고리 이름을 입력해주세요:");
+
+      if (newCategory && newCategory.trim() !== "") {
+        // 1. 중복이 아닐 때만 카테고리 배열 목록에 추가
+        if (!categories.includes(newCategory)) {
+          setCategories([...categories, newCategory]);
+        }
+        // 2. form 상태도 새로 만든 카테고리로 업데이트
+        setForm({ ...form, category: newCategory });
+      } else {
+        // 취소하거나 빈 값을 넣었다면 기존 선택값 유지 (또는 초기화)
+        e.target.value = form.category || "카테고리 선택";
+      }
+      return; // 특별 처리가 끝났으므로 함수를 종료합니다.
+    }
+
+    setForm({ ...form, [field]: value });
   };
+
   const onUploadClick = () => {
     fileInputRef.current.click();
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault(); // 페이지 새로고침 방지
-    console.log("sss");
 
     // 비어있는 거 검사
     if (!form.name || !form.expiryDate || !form.openedDate || !form.category) {
@@ -52,22 +81,25 @@ const Register = () => {
     }
 
     showToast("check", "제품이 등록됐습니다!");
-    //기존 데이터 가져오기
-    const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
 
-    // 새 객체 만들기
-    const newProduct = {
-      ...form,
-      id: Date.now(),
+    // 💡 3. [데이터 가공] 현재 내 화면의 변수명을 백엔드 명세서 Key 이름으로 번역합니다.
+    const PostData = {
+      title: form.name, // 제품명
+      body: `카테고리: ${form.category}`,
+      gender: 1,
+      expiration_date: form.expiryDate, // 유통기한
+      open_date: form.openedDate, // 개봉일
+      hashtag_names: [form.category], // 해시태그
+      photo: null, // 이미지 파일 처리는 백엔드 구조에 맞춰 null 처리 혹은 form.image
     };
 
-    // 저장
-    localStorage.setItem(
-      "products",
-      JSON.stringify([...existingProducts, newProduct]),
-    );
+    // createPost 호출
+    const success = await createPost(PostData);
 
-    //navigate("/productpage");
+    if (success) {
+      showToast("check", "제품이 등록됐습니다!");
+      // navigate("/productpage"); // 주석 해제하면 이동함
+    }
   };
 
   return (
@@ -119,27 +151,27 @@ const Register = () => {
         <div className="flex items-center">
           <label className="font-main-Bold w-20 text-gray-800">제품명</label>
           <Input
-            placeholder="제품명을 입력해주세요"
             className="border-gray2 flex-1 rounded-full border px-4 py-2"
             onChange={(e) => handleChange(e, "name")}
+            value={form.name}
           />
         </div>
-
         <div className="flex items-center">
           <label className="font-main-Bold w-20 text-gray-800">개봉일</label>
           <Input
             type="date"
             className="border-gray2 flex-1 rounded-full border px-4 py-2"
             onChange={(e) => handleChange(e, "openedDate")}
+            value={form.openedDate}
           />
         </div>
-
         <div className="flex items-center">
           <label className="font-main-Bold w-20 text-gray-800">유통기한</label>
           <Input
             type="date"
             className="border-gray2 flex-1 rounded-full border px-4 py-2"
             onChange={(e) => handleChange(e, "expiryDate")}
+            value={form.expiryDate}
           />
         </div>
 
@@ -149,11 +181,22 @@ const Register = () => {
             <select
               className="border-gray2 w-full appearance-none rounded-full border px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
               onChange={(e) => handleChange(e, "category")}
-              defaultValue="카테고리 선택"
+              value={form.category || "카테고리 선택"}
             >
-              <option value="영양제">영양제</option>
-              <option value="식품">식품</option>
-              <option value="화장품">화장품</option>
+              <option value="카테고리 선택" disabled>
+                카테고리 선택
+              </option>
+
+              {/* 동적으로 렌더링되는 옵션들 */}
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+
+              <option value="__ADD_NEW__" className="font-bold text-indigo-600">
+                +
+              </option>
             </select>
             <span className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-500">
               ▼

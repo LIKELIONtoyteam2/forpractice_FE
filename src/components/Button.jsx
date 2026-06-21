@@ -12,9 +12,10 @@ const Button = ({
     "px-3 py-2 rounded-full font-main transition-all duration-200 active:scale-95 cursor-pointer inline-flex items-center justify-center";
 
   //  스타일
+  // secondary는 안쓰여서 홈화면 버튼 모양으로 바꿈.
   const variants = {
     primary: "bg-primary text-white border-none",
-    secondary: "bg-white text-primary border border-primary",
+    secondary: "bg-white text-gray3 border border-gray3",
     disabled:
       "bg-gray2 text-black border-none cursor-not-allowed pointer-events-none",
   };

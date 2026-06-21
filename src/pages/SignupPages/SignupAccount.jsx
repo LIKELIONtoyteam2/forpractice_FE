@@ -2,31 +2,25 @@ import Button from "../../components/Button";
 import Input from "../../components/TextInput";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const SignupAccount = () => {
   const navigate = useNavigate();
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { signup, signupData, setSignupData } = useAuthStore(); //useAuthStore에서 signup, signupData 가져오기
 
-  const handleSignup = () => {
-    const nickname = localStorage.getItem("temp_nickname");
-    console.log("temp_nickname");
-
-    const newUser = {
-      nickname,
-      id,
-      pw,
-    };
-
-    // users 배열에서 데이터 가져오고 없으면 빈 배열로 시작
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    //newUser를 users 배열에 push
-    users.push(newUser);
-    //그걸 localStorage에 stringify해서 집어넣음 (배열 통째로 업데이트)
-    localStorage.setItem("users", JSON.stringify(users));
-    console.log(users);
+  const handleSignup = async () => {
+    setSignupData({ username: username, password: password, email: email });
+    console.log("1", signupData);
+    await signup(username, email, signupData.nickname, password);
+    console.log("2", signupData);
+    navigate("/signup/complete");
   };
+
   return (
     <div className="mx-auto flex min-h-screen w-100.5 flex-col bg-white px-4">
       {/* [추가] 상단 뒤로가기 + 타이틀 헤더 (이미지 참고) */}
@@ -66,8 +60,22 @@ const SignupAccount = () => {
             className="h-11 w-full rounded-[99px] bg-gray-100 pl-6"
             type="text"
             placeholder="아이디 입력"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </section>
+
+        {/*이메일 섹션 */}
+        <section className="space-y-2">
+          <label className="font-main-Bold block text-sm text-gray-800">
+            이메일
+          </label>
+          <Input
+            className="h-11 w-full rounded-[99px] bg-gray-100 pl-6"
+            type="text"
+            placeholder="이메일 입력"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </section>
 
@@ -81,8 +89,8 @@ const SignupAccount = () => {
               className="h-11 w-full rounded-[99px] bg-gray-100 pr-10 pl-6"
               type={showPassword ? "text" : "password"}
               placeholder="비밀번호 입력"
-              value={pw}
-              onChange={(e) => setPw(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <img
               src={
@@ -94,14 +102,12 @@ const SignupAccount = () => {
             />
           </div>
         </section>
+
         {/* 로그인 버튼  */}
         <div className="flex justify-center pb-10">
           <Button
-            className="font-main-Bold flex h-15 w-87.5" // 화면 너비에 꽉 차게
-            onClick={() => {
-              navigate("/signup/complete");
-              handleSignup();
-            }}
+            className="font-main-Bold flex h-15 w-87.5"
+            onClick={handleSignup}
           >
             가입완료
           </Button>

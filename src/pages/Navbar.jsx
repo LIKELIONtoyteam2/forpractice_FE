@@ -26,7 +26,7 @@ const Navbar = () => {
                   className={isActive ? "color-gray2" : "text-gray-400"}
                 />
                 <span
-                  className={`text-[11px] ${isActive ? "font-main-Bold text-black " : "text-gray-400"}`}
+                  className={`font-main text-[11px] ${isActive ? "font-main-Bold text-black " : "text-gray-400"}`}
                 >
                   홈
                 </span>
@@ -42,7 +42,7 @@ const Navbar = () => {
                   className={isActive ? "color-gray2" : "text-gray-400"}
                 />
                 <span
-                  className={`text-[11px] ${isActive ? "font-main-Bold text-black" : "text-gray-400"}`}
+                  className={`font-main text-[11px] ${isActive ? "font-main-Bold text-black" : "text-gray-400"}`}
                 >
                   등록
                 </span>
@@ -58,7 +58,7 @@ const Navbar = () => {
                   className={isActive ? "color-gray2" : "text-gray-400"}
                 />
                 <span
-                  className={`text-[11px] ${isActive ? "font-main-Bold text-black" : "text-gray-400"}`}
+                  className={`font-main text-[11px] ${isActive ? "font-main-Bold text-black" : "text-gray-400"}`}
                 >
                   마이
                 </span>

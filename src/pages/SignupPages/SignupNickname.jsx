@@ -2,10 +2,12 @@ import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Input from "../../components/TextInput";
+import { useAuthStore } from "../../store/useAuthStore";
 
 const SignupNickname = () => {
   const navigate = useNavigate();
   const [Nickname, setNickname] = useState("");
+  const { setSignupData } = useAuthStore();
 
   return (
     <div className="mx-auto flex min-h-screen w-100.5 flex-col bg-none px-4">
@@ -78,12 +80,12 @@ const SignupNickname = () => {
       </div>
       <div className="flex justify-center pb-10">
         <Button
-          type="button"
+          className="font-main-Bold flex h-15 w-87.5"
           onClick={() => {
-            localStorage.setItem("temp_nickname", Nickname);
+            setSignupData({ nickname: Nickname }); // 닉네임(Nickname) 입력한거 useAuthStore의 nickname에 저장
+            console.log("지금 스토어로 보낸 닉네임:", Nickname);
             navigate("/signup/account");
           }}
-          className="font-main-Bold flex h-15 w-87.5"
         >
           다음
         </Button>

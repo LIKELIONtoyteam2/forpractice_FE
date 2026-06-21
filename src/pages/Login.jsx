@@ -2,26 +2,18 @@ import Button from "../components/Button";
 import Input from "../components/TextInput";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuthStore } from "../store/useAuthStore";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const foundUser = users.find((user) => user.id === id && user.pw === pw);
-
-    if (!foundUser) {
-      alert("로그인 실패");
-      setId("");
-      setPw("");
-      return;
-    }
-
-    localStorage.setItem("currentUser", JSON.stringify(foundUser));
-    navigate("/productpage");
+  const handleLogin = async () => {
+    await login(username, password);
+    navigate("/signup/complete");
   };
 
   return (
@@ -35,44 +27,44 @@ const Login = () => {
       <main className="w-full space-y-6">
         {/* 아이디 섹션 */}
         <section className="space-y-2">
-          <label className="block text-[16px] font-main-ExtraBold  text-gray-800">
+          <label className="font-main-ExtraBold block text-[16px] text-gray-800">
             아이디
           </label>
           <Input
-            className="w-full h-11 pl-6 bg-gray-100 rounded-[99px]"
+            className="h-11 w-full rounded-[99px] bg-gray-100 pl-6"
             type="text"
             placeholder="아이디 입력"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </section>
 
         {/* 비밀번호 섹션 */}
         <section className="space-y-2">
-          <label className="block text-[16px] font-main-ExtraBold text-gray-800">
+          <label className="font-main-ExtraBold block text-[16px] text-gray-800">
             비밀번호
           </label>
           <div className="relative">
             <Input
-              className="w-full pr-10    h-11 pl-6 bg-gray-100 rounded-[99px]"
+              className="h-11 w-full rounded-[99px] bg-gray-100 pr-10 pl-6"
               type={showPassword ? "text" : "password"}
               placeholder="비밀번호 입력"
-              value={pw}
-              onChange={(e) => setPw(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <img
               src={
                 showPassword ? "/icons/eye_opened.svg" : "/icons/eye_closed.svg"
               }
               alt="toggle password visibility"
-              className="absolute right-6 top-1/2 w-5 -translate-y-1/2 cursor-pointer opacity-40"
+              className="absolute top-1/2 right-6 w-5 -translate-y-1/2 cursor-pointer opacity-40"
               onClick={() => setShowPassword(!showPassword)}
             />
           </div>
 
           {/* 로그인 상태 유지 */}
           <div className="mt-2 ml-2.5 flex items-center gap-2 text-[14px] text-gray-500">
-            <input type="checkbox" className="h-4 w-4 accent-gray2" />
+            <input type="checkbox" className="accent-gray2 h-4 w-4" />
             <span className="font-main">로그인 상태 유지</span>
           </div>
         </section>
@@ -80,18 +72,18 @@ const Login = () => {
         {/* 로그인 버튼  */}
         <div className="pt-4">
           <Button
-            className="w-82.5 h-12.5 py-5 text-[18px] font-main-Bold" // 화면 너비에 꽉 차게
+            className="font-main-Bold h-12.5 w-82.5 py-5 text-[18px]" // 화면 너비에 꽉 차게
             onClick={handleLogin}
           >
             로그인
           </Button>
         </div>
 
-        {/* 회원가입 (링크 텍스트 형태) */}
+        {/* 회원가입*/}
         <div className="flex justify-center">
           <span
             onClick={() => navigate("/signup/nickname")}
-            className="cursor-pointer text-[14px] font-main text-gray3 underline underline-offset-4 transition-colors hover:text-gray-600"
+            className="font-main text-gray3 cursor-pointer text-[14px] underline underline-offset-4 transition-colors hover:text-gray-600"
           >
             회원가입
           </span>
