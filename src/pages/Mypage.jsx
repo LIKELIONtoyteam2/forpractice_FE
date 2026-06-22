@@ -15,7 +15,7 @@ const Mypage = () => {
 
   if (isLoading && !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="font-main-Bold flex min-h-screen items-center justify-center">
         로딩 중...
       </div>
     );
@@ -37,14 +37,14 @@ const Mypage = () => {
                 {/* 프로필 이미지 (원형) */}
                 <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#EAEAEA]">
                   {user.profile_image ? (
-                    // ✨ 중요: 백엔드 주소와 받아온 경로를 조립해서 src에 넣어줍니다.
+                    // 백엔드 주소와 받아온 경로를 조립해서 src에 넣기. base주소 / 백엔드 변수명 매치
                     <img
                       src={`https://bailey44.pythonanywhere.com${user.profile_image}`}
                       alt="프로필 사진"
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    // 프로필 이미지가 null이거나 없을 때 보여줄 기본 이미지 경로
+                    // 기본 이미지 경로
                     <img
                       src="/images/defaultProfile.png"
                       alt="기본 프로필"

@@ -21,7 +21,7 @@ const SignupAccount = () => {
       await login(username, password);
       navigate("/signup/complete");
     } catch (error) {
-      // 에러 발생 시 강제 새로고침
+      // 에러 발생 시 새로고침 -> 입력된 거 날리기
       console.error(error);
       window.location.reload();
     }
@@ -29,13 +29,13 @@ const SignupAccount = () => {
 
   return (
     <div className="mx-auto flex min-h-screen w-100.5 flex-col bg-white px-4">
-      {/* [추가] 상단 뒤로가기 + 타이틀 헤더 (이미지 참고) */}
+      {/* 상단 헤더 */}
       <header className="relative flex items-center pt-6 pb-2">
         <button
           onClick={() => navigate(-1)}
           className="absolute left-0 p-1 text-gray-700"
         >
-          {/* [추가] 뒤로가기 chevron 아이콘 (SVG 인라인) */}
+          {/* left chevron  */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

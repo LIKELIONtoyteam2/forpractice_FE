@@ -170,7 +170,7 @@ export const useAuthStore = create(
         );
 
         // 2. 가입 성공 시 바로 로그인 API 호출!
-        // (이미 login 함수가 있으니 get().login()을 활용할 수 있습니다)
+
         await get().login(username, password);
 
         return true; // 성공 반환
@@ -192,6 +192,6 @@ export const useAuthStore = create(
     },
   })),
   {
-    name: "auth-storage", // persist의 정상 작동을 위한 Key 이름 지정!
+    name: "auth-storage",
   },
 );

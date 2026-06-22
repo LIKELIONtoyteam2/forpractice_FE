@@ -17,7 +17,7 @@ const Login = () => {
   };
 
   return (
-    /* 전체를 중앙으로 정렬하는 컨테이너 */
+    /* 전체 중앙 정렬 컨테이너 */
     <div className="mx-auto flex min-h-screen w-100.5 flex-col items-center bg-white px-9 pt-20">
       {/* 로고 영역 */}
       <div className="mb-16">

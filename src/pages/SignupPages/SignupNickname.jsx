@@ -19,7 +19,7 @@ const SignupNickname = () => {
 
     setImageFile(file); // 실제 이미지 파일 저장
 
-    // 기존 생성된 blob URL 메모리 해제 (성능 최적화)
+    // 기존 생성된 blob URL 메모리 해제
     if (preview && preview.startsWith("blob:")) {
       URL.revokeObjectURL(preview);
     }
@@ -40,7 +40,7 @@ const SignupNickname = () => {
           onClick={() => navigate(-1)}
           className="absolute left-0 p-2.5 text-gray-700"
         >
-          {/* 뒤로가기 chevron 아이콘 (SVG 인라인) */}
+          {/* left chevron */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -60,7 +60,7 @@ const SignupNickname = () => {
           회원가입
         </h1>
       </header>
-      {/* [추가] 프로필 이미지 업로드 영역 (이미지 참고) */}
+      {/* 프로필 이미지 업로드 영역  */}
       <div className="flex justify-center pt-8 pb-10">
         <div className="relative">
           <div className="flex items-center justify-center rounded-full">
