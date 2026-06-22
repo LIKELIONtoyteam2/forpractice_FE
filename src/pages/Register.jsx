@@ -1,14 +1,20 @@
 import Input from "../components/TextInput";
 import Button from "../components/Button";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useToastStore } from "../store/useToastStore";
+//import { useAuthStore } from "../store/useAuthStore";
+import { usePostStore } from "../store/usePostStore";
 
 const Register = () => {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [Preview, setPreview] = useState("/images/previewphoto.png");
   const showToast = useToastStore((state) => state.showToast);
+  const { createPost } = usePostStore();
+
+  const CATEGORIES = ["영양제", "화장품", "식품", "기타"];
+
   const [form, setForm] = useState({
     name: "",
     image: null,
@@ -17,62 +23,62 @@ const Register = () => {
     category: "",
   });
 
-  // 사진 선택 시 실행 - FileReader 통해 휘발 안되게
+  // 사진 선택 시 실행 - 파일 객체 그대로 저장
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
+    // 화면에 보여줄 미리보기 URL
+    setPreview(URL.createObjectURL(file));
 
-    // 파일 읽기가 완료되면 실행
-    reader.onloadend = () => {
-      const base64String = reader.result; // 이미지를 문자열로 변환
-      setPreview(base64String); // 화면 미리보기 업데이트
-      setForm((prev) => ({ ...prev, image: base64String })); // form 상태에 이미지 데이터 저장
-    };
-
-    reader.readAsDataURL(file); // 읽기 시작
+    setForm((prev) => ({ ...prev, image: file }));
   };
 
   // 입력값이 바뀔 때마다 form 상태 업데이트
   const handleChange = (e, field) => {
-    setForm({ ...form, [field]: e.target.value });
+    const value = e.target.value;
+    setForm({ ...form, [field]: value });
   };
+
   const onUploadClick = () => {
     fileInputRef.current.click();
   };
-  const handleSubmit = (e) => {
-    e.preventDefault(); // 페이지 새로고침 방지
-    console.log("sss");
 
-    // 비어있는 거 검사
+  // 2. 등록 버튼 클릭 시 실행
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     if (!form.name || !form.expiryDate || !form.openedDate || !form.category) {
       alert("내용을 모두 입력해주세요!");
       return;
     }
 
+    const formData = new FormData();
+
+    // 백엔드 명세 Key 규칙 지키기!!!!!
+    formData.append("title", form.name);
+    formData.append("body", `카테고리: ${form.category}`);
+    formData.append("gender", 1);
+    formData.append("expiration_date", form.expiryDate);
+    formData.append("open_date", form.openedDate);
+    formData.append("hashtag_names", form.category);
+
+    if (form.image) {
+      formData.append("photo", form.image);
+    }
+
     showToast("check", "제품이 등록됐습니다!");
-    //기존 데이터 가져오기
-    const existingProducts = JSON.parse(localStorage.getItem("products")) || [];
 
-    // 새 객체 만들기
-    const newProduct = {
-      ...form,
-      id: Date.now(),
-    };
+    const success = await createPost(formData);
 
-    // 저장
-    localStorage.setItem(
-      "products",
-      JSON.stringify([...existingProducts, newProduct]),
-    );
-
-    //navigate("/productpage");
+    if (success) {
+      navigate("/productpage");
+    }
   };
 
   return (
     <div className="font-main flex min-h-screen w-100.5 flex-col items-center bg-white px-4 py-6">
-      <img className="mb-9 flex w-24 items-center" src="/icons/logo.svg" />
+      <img className="mb-5 flex h-8 w-15 items-center" src="/icons/logo.svg" />
 
       {/* 사진 업로드 영역 */}
       <div className="mb-8 flex flex-col items-center">
@@ -119,45 +125,65 @@ const Register = () => {
         <div className="flex items-center">
           <label className="font-main-Bold w-20 text-gray-800">제품명</label>
           <Input
-            placeholder="제품명을 입력해주세요"
             className="border-gray2 flex-1 rounded-full border px-4 py-2"
             onChange={(e) => handleChange(e, "name")}
+            value={form.name}
           />
         </div>
-
         <div className="flex items-center">
           <label className="font-main-Bold w-20 text-gray-800">개봉일</label>
           <Input
             type="date"
             className="border-gray2 flex-1 rounded-full border px-4 py-2"
             onChange={(e) => handleChange(e, "openedDate")}
+            value={form.openedDate}
           />
         </div>
-
         <div className="flex items-center">
           <label className="font-main-Bold w-20 text-gray-800">유통기한</label>
           <Input
             type="date"
             className="border-gray2 flex-1 rounded-full border px-4 py-2"
             onChange={(e) => handleChange(e, "expiryDate")}
+            value={form.expiryDate}
           />
         </div>
 
         <div className="flex items-center">
           <label className="font-main-Bold w-20 text-gray-800">카테고리</label>
-          <div className="relative flex-1">
+          <div className="relative flex flex-1 items-center">
+            {" "}
             <select
-              className="border-gray2 w-full appearance-none rounded-full border px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+              className="border-gray2 w-full appearance-none rounded-full border bg-transparent py-2 pr-10 pl-4 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
               onChange={(e) => handleChange(e, "category")}
-              defaultValue="카테고리 선택"
+              value={form.category || "카테고리 선택"}
             >
-              <option value="영양제">영양제</option>
-              <option value="식품">식품</option>
-              <option value="화장품">화장품</option>
+              <option value="카테고리 선택" disabled>
+                카테고리 선택
+              </option>
+
+              {/* 동적 렌더링 */}
+              {CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
-            <span className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-500">
-              ▼
-            </span>
+            {/* chevron-down */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="pointer-events-none absolute right-4.5 h-5 w-5 text-black"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
           </div>
         </div>
 

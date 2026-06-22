@@ -50,9 +50,13 @@ export const ToastManager = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed top-24 right-7 z-50 -translate-x-1/2">
+    <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
       <div
-        className={`transition-all duration-300 ease-out ${visible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"} `}
+        className={`pointer-events-auto transition-all duration-300 ease-out ${
+          visible
+            ? "translate-y-0 scale-100 opacity-100"
+            : "translate-y-4 scale-95 opacity-0"
+        }`}
       >
         <Toast type={type} text={text} />
       </div>
