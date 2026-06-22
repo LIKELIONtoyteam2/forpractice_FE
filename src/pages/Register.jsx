@@ -1,21 +1,26 @@
 import Input from "../components/TextInput";
 import Button from "../components/Button";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useToastStore } from "../store/useToastStore";
-import { useAuthStore } from "../store/useAuthStore";
+//import { useAuthStore } from "../store/useAuthStore";
 import { usePostStore } from "../store/usePostStore";
 //import api from "@api/axios";
 
 const Register = () => {
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [Preview, setPreview] = useState("/images/previewphoto.png");
   const showToast = useToastStore((state) => state.showToast);
   const { createPost } = usePostStore();
-  const { isLoading } = useAuthStore();
+  //  const { isLoading } = useAuthStore();
 
-  const [categories, setCategories] = useState(["영양제", "식품"]);
+  const [categories, setCategories] = useState([
+    "영양제",
+    "화장품",
+    "식품",
+    "기타",
+  ]);
 
   const [form, setForm] = useState({
     name: "",
@@ -25,21 +30,16 @@ const Register = () => {
     category: "",
   });
 
-  // 사진 선택 시 실행 - FileReader 통해 휘발 안되게
+  // 1. 사진 선택 시 실행 - 진짜 파일 객체를 그대로 저장
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
+    // 화면에 보여줄 미리보기 URL만 임시 생성
+    setPreview(URL.createObjectURL(file));
 
-    // 파일 읽기가 완료되면 실행
-    reader.onloadend = () => {
-      const base64String = reader.result; // 이미지를 문자열로 변환
-      setPreview(base64String); // 화면 미리보기 업데이트
-      setForm((prev) => ({ ...prev, image: base64String })); // form 상태에 이미지 데이터 저장
-    };
-
-    reader.readAsDataURL(file); // 읽기 시작
+    // 🔥 [핵심] 글자가 아니라 순수 파일(File Object) 자체를 그대로 저장!
+    setForm((prev) => ({ ...prev, image: file }));
   };
 
   // 입력값이 바뀔 때마다 form 상태 업데이트
@@ -71,34 +71,40 @@ const Register = () => {
     fileInputRef.current.click();
   };
 
+  // 2. 등록 버튼 클릭 시 실행
   const handleSubmit = async (e) => {
-    e.preventDefault(); // 페이지 새로고침 방지
+    e.preventDefault();
 
-    // 비어있는 거 검사
     if (!form.name || !form.expiryDate || !form.openedDate || !form.category) {
       alert("내용을 모두 입력해주세요!");
       return;
     }
 
+    // 🔥 종합 택배 상자(FormData)를 생성합니다.
+    const formData = new FormData();
+
+    // 백엔드 명세 Key 규칙에 맞게 쏙쏙 집어넣기
+    formData.append("title", form.name);
+    formData.append("body", `카테고리: ${form.category}`);
+    formData.append("gender", 1);
+    formData.append("expiration_date", form.expiryDate);
+    formData.append("open_date", form.openedDate);
+
+    // Django가 리스트로 잘 인식할 수 있도록 처리
+    formData.append("hashtag_names", form.category);
+
+    // 🔥 form.image에 들어있는 진짜 파일 객체를 "photo"라는 Key로 꽂아줍니다!
+    if (form.image) {
+      formData.append("photo", form.image);
+    }
+
     showToast("check", "제품이 등록됐습니다!");
 
-    // 💡 3. [데이터 가공] 현재 내 화면의 변수명을 백엔드 명세서 Key 이름으로 번역합니다.
-    const PostData = {
-      title: form.name, // 제품명
-      body: `카테고리: ${form.category}`,
-      gender: 1,
-      expiration_date: form.expiryDate, // 유통기한
-      open_date: form.openedDate, // 개봉일
-      hashtag_names: [form.category], // 해시태그
-      photo: null, // 이미지 파일 처리는 백엔드 구조에 맞춰 null 처리 혹은 form.image
-    };
-
-    // createPost 호출
-    const success = await createPost(PostData);
+    // 스토어 함수에 이 가공된 formData 상자를 통째로 넘겨줍니다.
+    const success = await createPost(formData);
 
     if (success) {
-      showToast("check", "제품이 등록됐습니다!");
-      // navigate("/productpage"); // 주석 해제하면 이동함
+      navigate("/productpage");
     }
   };
 
@@ -177,9 +183,11 @@ const Register = () => {
 
         <div className="flex items-center">
           <label className="font-main-Bold w-20 text-gray-800">카테고리</label>
-          <div className="relative flex-1">
+          <div className="relative flex flex-1 items-center">
+            {" "}
+            {/* 💡 items-center 추가로 수직 정렬 보장 */}
             <select
-              className="border-gray2 w-full appearance-none rounded-full border px-4 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+              className="border-gray2 w-full appearance-none rounded-full border bg-transparent py-2 pr-10 pl-4 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
               onChange={(e) => handleChange(e, "category")}
               value={form.category || "카테고리 선택"}
             >
@@ -193,14 +201,22 @@ const Register = () => {
                   {cat}
                 </option>
               ))}
-
-              <option value="__ADD_NEW__" className="font-bold text-indigo-600">
-                +
-              </option>
             </select>
-            <span className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-500">
-              ▼
-            </span>
+            {/* chevron-down 스타일 수정 */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="pointer-events-none absolute right-4.5 h-5 w-5 text-black"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
           </div>
         </div>
 

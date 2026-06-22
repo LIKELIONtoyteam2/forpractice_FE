@@ -88,7 +88,6 @@ const MypageFix = () => {
             <div className="absolute -bottom-25 left-1/2 -translate-x-1/2">
               <div className="relative flex w-full flex-col items-center px-10 py-10">
                 <div className="relative flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#EAEAEA]">
-                  {/* 💡 preview 상태값(이미지 주소)을 적용합니다 */}
                   <img
                     src={preview}
                     alt="프로필"
@@ -106,7 +105,6 @@ const MypageFix = () => {
             </div>
           </div>
 
-          {/* 3. 상단 실시간 변경 상태 레이아웃 (선택 사항) */}
           <div className="mt-20 text-center">
             <h2 className="font-main-Bold text-[24px]">
               {nickname || "닉네임 없음"}
@@ -133,7 +131,7 @@ const MypageFix = () => {
           <div className="relative flex items-center">
             <Input
               type="text"
-              value={nickname} // 💡 defaultValue 대신 제어 컴포넌트(value) 활용
+              value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               placeholder="변경할 닉네임을 입력하세요"
               className="bg-primary40 h-11 w-full rounded-full py-3 pr-12 pl-5 outline-none"

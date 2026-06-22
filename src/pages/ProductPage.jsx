@@ -20,7 +20,7 @@ const ProductPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    fetchPosts(); // 컴포넌트가 켜질 때 자동으로 데이터 조회 요청
+    fetchPosts();
   }, [fetchPosts]);
 
   const products = posts || [];
@@ -82,8 +82,7 @@ const ProductPage = () => {
     const groups = {};
 
     sorted.forEach((product) => {
-      // 💡 [수정] hashtags 배열이 존재하고, 첫 번째 태그가 있으면 그 이름을 카테고리로 사용합니다.
-      let categoryName = "기타"; // 기본값 지정
+      let categoryName = "default"; // 기본값 지정
 
       if (
         product.hashtags &&
@@ -154,7 +153,6 @@ const ProductPage = () => {
       <div className="mt-6 flex justify-center gap-2 pb-2">
         <Button
           onClick={() => setSortType("default")}
-          // 💡 sortType이 일치하면 variant를 "primary"로, 아니면 "disabled"(혹은 secondary)로 바로 꽂아버립니다!
           variant={sortType === "default" ? "primary" : "secondary"}
           className="font-main-Regular px-3 py-1.5 text-[14px]"
         >
@@ -227,6 +225,11 @@ const ProductPage = () => {
                         key={item.id}
                         id={item.id}
                         name={item.title}
+                        image={
+                          item.photo
+                            ? `https://bailey44.pythonanywhere.com${item.photo}`
+                            : null
+                        }
                         daysLeft={getDaysLeft(item.expiration_date)}
                         onClick={() => handleProductClick(item.id)}
                         bgColor={rowColors[rowIndex % 3].bg}
@@ -252,6 +255,11 @@ const ProductPage = () => {
                   key={item.id}
                   id={item.id}
                   name={item.title}
+                  image={
+                    item.photo
+                      ? `https://bailey44.pythonanywhere.com${item.photo}`
+                      : null
+                  }
                   daysLeft={getDaysLeft(item.expiration_date)}
                   onClick={() => handleProductClick(item.id)}
                   bgColor={rowColors[rowIndex % 3].bg}

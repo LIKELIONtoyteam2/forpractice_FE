@@ -31,9 +31,15 @@ const Product = ({
       className={`flex h-38.5 w-full cursor-pointer flex-col overflow-hidden rounded-[10px] border ${borderColor} pb-2`}
     >
       {/*이미지 */}
-      <div className="relative h-40 w-full bg-gray-200">
+      <div className="relative h-40 w-full overflow-hidden bg-gray-200">
         {image ? (
-          <img className="h-full w-full object-cover" src={image} alt={name} />
+          <img
+            className="h-full w-full object-cover"
+            src={image}
+            alt={name}
+            // 💡 여기서 중요한 점: img 태그에 별도의 width나 height를 직접 주지 마세요.
+            // 부모 div(h-40)에 맞게 꽉 차도록 설정되어 있으니 그대로 두면 됩니다.
+          />
         ) : (
           <div className="font-main flex h-full w-full items-center justify-center text-xs text-gray-400">
             이미지 없음

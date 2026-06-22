@@ -37,9 +37,14 @@ export const usePostStore = create((set) => ({
         "https://bailey44.pythonanywhere.com/audit/",
         config,
       );
+      console.log("📥 백엔드가 준 전체 데이터 원본 확인:", response.data);
+      // 💡 [수정 2] response.data.posts가 아니라 백엔드가 준 배열 데이터 원본(response.data)을 그대로 꽂아줍니다!
+      // 만약 백엔드가 준 데이터가 배열이 아니라면 response.data 자체를 가공해야 하니 콘솔을 꼭 확인하세요.
+      const fetchedData = Array.isArray(response.data)
+        ? response.data
+        : response.data.posts || [];
 
-      set({ posts: response.data.posts || [] });
-      console.log(response.data);
+      set({ posts: fetchedData });
     } catch (error) {
       console.error("❌ [5단계 실패] 서버가 요청을 거부했습니다.");
 
@@ -78,6 +83,7 @@ export const usePostStore = create((set) => ({
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         },
       );
@@ -99,24 +105,16 @@ export const usePostStore = create((set) => ({
     const token = useAuthStore.getState().token;
 
     try {
-      // 2. "post합니다" 부분 (axios.post 사용)
       const response = await axios.post(
         `https://bailey44.pythonanywhere.com/audit/`,
 
-        {
-          title: postData.title,
-          body: postData.body,
-          gender: postData.gender,
-          expiration_date: postData.expiration_date,
-          open_date: postData.open_date,
-          hashtag_names: postData.hashtag_names,
-        },
+        postData,
 
         // authorization
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
         },
       );
@@ -129,7 +127,7 @@ export const usePostStore = create((set) => ({
         posts: [response.data, ...state.posts], // 최신 글이 맨 위로 오도록 합치기
       }));
     } catch (error) {
-      console.error("게시글 등록 실패", error);
+      console.error("🚨 백엔드가 보낸 진짜 에러 사유:", error.response?.data);
     }
   },
 }));

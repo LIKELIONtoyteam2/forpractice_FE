@@ -11,14 +11,20 @@ const SignupAccount = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const { signup, signupData, setSignupData } = useAuthStore(); //useAuthStore에서 signup, signupData 가져오기
+  const { signup, signupData, setSignupData, login } = useAuthStore(); //useAuthStore에서 signup, signupData 가져오기
 
   const handleSignup = async () => {
     setSignupData({ username: username, password: password, email: email });
-    console.log("1", signupData);
-    await signup(username, email, signupData.nickname, password);
-    console.log("2", signupData);
-    navigate("/signup/complete");
+
+    try {
+      await signup(username, email, signupData.nickname, password);
+      await login(username, password);
+      navigate("/signup/complete");
+    } catch (error) {
+      // 에러 발생 시 강제 새로고침
+      console.error(error);
+      window.location.reload();
+    }
   };
 
   return (

@@ -3,7 +3,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
-//import { useNavigate } from "react-router-dom";
 
 export const useAuthStore = create(
   persist((set, get) => ({
@@ -159,6 +158,7 @@ export const useAuthStore = create(
       });
 
       try {
+        // 1. 회원가입 요청
         await axios.post(
           `https://bailey44.pythonanywhere.com/accounts/signup/`,
           {
@@ -169,8 +169,11 @@ export const useAuthStore = create(
           },
         );
 
-        //set({ signupData: { nickname: "" } }); // 가입 완료 후 초기화
-        //navigate("/signup/complete");
+        // 2. 가입 성공 시 바로 로그인 API 호출!
+        // (이미 login 함수가 있으니 get().login()을 활용할 수 있습니다)
+        await get().login(username, password);
+
+        return true; // 성공 반환
       } catch (error) {
         const data = error.response?.data;
         console.log(data);
@@ -182,6 +185,7 @@ export const useAuthStore = create(
         } else {
           alert("회원가입에 실패했습니다.");
         }
+        throw error;
       } finally {
         set({ isLoading: false });
       }
